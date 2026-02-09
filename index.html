@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alan Krou | Marketing Digital & Développement Commercial</title>
+    <title>Alexandre Mercier | Marketing Digital & Développement Commercial</title>
     <style>
         * {
             margin: 0;
@@ -486,6 +486,121 @@
             transform: translateY(-3px);
         }
 
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            font-weight: bold;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            color: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            padding: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-section {
+            margin-bottom: 30px;
+        }
+
+        .modal-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .modal-section p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .modal-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .modal-section ul li {
+            color: var(--text-gray);
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .modal-section ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             nav {
@@ -699,7 +814,7 @@
                     <div class="contact-icon">📧</div>
                     <div>
                         <h4>Email</h4>
-                        <p>alexandre.mercier@exemple.fr</p>
+                        <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7a1b161f021b141e081f54171f0819131f083a1f021f170a161f541c08">[email&#160;protected]</a></p>
                     </div>
                 </div>
                 <div class="contact-item">
@@ -742,6 +857,35 @@
         </div>
     </section>
 
+    <!-- Project Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <div class="modal-icon" id="modalIcon"></div>
+                <h2 id="modalTitle"></h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>📋 Description</h3>
+                    <p id="modalDescription"></p>
+                </div>
+                <div class="modal-section">
+                    <h3>🎯 Objectifs</h3>
+                    <ul id="modalObjectives"></ul>
+                </div>
+                <div class="modal-section">
+                    <h3>📈 Résultats</h3>
+                    <ul id="modalResults"></ul>
+                </div>
+                <div class="modal-section">
+                    <h3>🛠️ Technologies & Méthodes</h3>
+                    <div id="modalTags" class="project-tags"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <div class="social-links">
@@ -753,7 +897,7 @@
         <p>&copy; 2024 Alexandre Mercier. Tous droits réservés.</p>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
@@ -801,6 +945,148 @@
             e.preventDefault();
             alert('Merci pour votre message ! Je vous répondrai dans les plus brefs délais.');
             e.target.reset();
+        });
+
+        // Project Modal System
+        const projectsData = {
+            'project1': {
+                icon: '🚀',
+                title: 'Startup SaaS B2B',
+                gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                description: 'Accompagnement complet d\'une startup SaaS en phase de croissance pour structurer et optimiser leur stratégie d\'acquisition digitale. Mise en place d\'un écosystème marketing complet du tunnel de conversion à l\'automatisation.',
+                objectives: [
+                    'Augmenter significativement le volume de leads qualifiés',
+                    'Réduire le coût d\'acquisition client (CAC)',
+                    'Mettre en place un système de lead scoring',
+                    'Automatiser le nurturing des prospects'
+                ],
+                results: [
+                    '+320% de leads qualifiés en 6 mois',
+                    '-45% de coût d\'acquisition par lead',
+                    'Taux de conversion leads → clients : +80%',
+                    'ROI marketing multiplié par 4'
+                ],
+                tags: ['SEO', 'LinkedIn Ads', 'Growth Hacking', 'Marketing Automation', 'HubSpot']
+            },
+            'project2': {
+                icon: '🛍️',
+                title: 'E-commerce Mode',
+                gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                description: 'Refonte stratégique complète de la présence digitale d\'une marque de mode en ligne. Optimisation de l\'expérience utilisateur, des campagnes publicitaires et mise en place d\'une stratégie de retargeting avancée.',
+                objectives: [
+                    'Doubler le chiffre d\'affaires en ligne',
+                    'Améliorer le taux de conversion du site',
+                    'Réduire le taux d\'abandon panier',
+                    'Augmenter la valeur moyenne du panier'
+                ],
+                results: [
+                    '+200% de chiffre d\'affaires e-commerce',
+                    'Taux de conversion : de 1,2% à 3,8%',
+                    'Taux d\'abandon panier réduit de 35%',
+                    'Panier moyen : +45€'
+                ],
+                tags: ['Meta Ads', 'Google Shopping', 'CRO', 'Retargeting', 'Google Analytics']
+            },
+            'project3': {
+                icon: '🏢',
+                title: 'PME Services B2B',
+                gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                description: 'Transformation digitale et restructuration commerciale d\'une PME de services B2B. Digitalisation du parcours commercial, formation des équipes et mise en place d\'outils de pilotage performants.',
+                objectives: [
+                    'Professionnaliser le processus de vente',
+                    'Améliorer le taux de closing',
+                    'Réduire le cycle de vente',
+                    'Structurer le suivi commercial'
+                ],
+                results: [
+                    'Taux de closing : de 18% à 50%',
+                    'Cycle de vente réduit de 40%',
+                    'Visibilité en temps réel sur le pipeline',
+                    '+2,5M€ de CA additionnel sur 12 mois'
+                ],
+                tags: ['Sales Enablement', 'CRM', 'Prospection', 'Salesforce', 'Formation']
+            }
+        };
+
+        // Open modal
+        function openProjectModal(projectId) {
+            const project = projectsData[projectId];
+            if (!project) return;
+
+            const modal = document.getElementById('projectModal');
+            
+            // Populate modal content
+            document.getElementById('modalIcon').textContent = project.icon;
+            document.getElementById('modalTitle').textContent = project.title;
+            document.getElementById('modalDescription').textContent = project.description;
+            
+            // Objectives
+            const objectivesList = document.getElementById('modalObjectives');
+            objectivesList.innerHTML = '';
+            project.objectives.forEach(obj => {
+                const li = document.createElement('li');
+                li.textContent = obj;
+                objectivesList.appendChild(li);
+            });
+            
+            // Results
+            const resultsList = document.getElementById('modalResults');
+            resultsList.innerHTML = '';
+            project.results.forEach(result => {
+                const li = document.createElement('li');
+                li.textContent = result;
+                resultsList.appendChild(li);
+            });
+            
+            // Tags
+            const tagsContainer = document.getElementById('modalTags');
+            tagsContainer.innerHTML = '';
+            project.tags.forEach(tag => {
+                const span = document.createElement('span');
+                span.className = 'tag';
+                span.textContent = tag;
+                tagsContainer.appendChild(span);
+            });
+            
+            // Show modal with animation
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        }
+
+        // Close modal
+        function closeProjectModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+
+        // Event listeners for project cards
+        document.querySelectorAll('.project-card').forEach((card, index) => {
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', () => {
+                openProjectModal('project' + (index + 1));
+            });
+        });
+
+        // Close modal on X click
+        document.querySelector('.modal-close').addEventListener('click', closeProjectModal);
+
+        // Close modal on outside click
+        document.getElementById('projectModal').addEventListener('click', (e) => {
+            if (e.target.id === 'projectModal') {
+                closeProjectModal();
+            }
+        });
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeProjectModal();
+            }
         });
     </script>
 </body>
