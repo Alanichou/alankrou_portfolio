@@ -889,6 +889,72 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* Expertise Note/Disclaimer */
+        .expertise-note {
+            max-width: 800px;
+            margin: 60px auto 0;
+            padding: 30px 40px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(255, 0, 110, 0.05));
+            border-left: 4px solid var(--primary-color);
+            border-radius: 15px;
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+
+        .expertise-note:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.15);
+        }
+
+        .note-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        .expertise-note {
+                flex-direction: column;
+                padding: 25px;
+                text-align: center;
+            }
+
+            .note-icon {
+                font-size: 2rem;
+            }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .note-content h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .note-content p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .note-highlight {
+            color: var(--text-light);
+            font-weight: 500;
+            font-style: italic;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -1007,6 +1073,15 @@
                 <p>Analyse de données, tableaux de bord personnalisés et pilotage de la performance par les KPIs.</p>
             </div>
                     </div>
+        <!-- Disclaimer/Note Section -->
+        <div class="expertise-note fade-in">
+            <div class="note-icon">💡</div>
+            <div class="note-content">
+                <h3>Une précision importante</h3>
+                <p>Je ne me considère pas encore comme un expert dans tous ces domaines. Mon objectif est de les maîtriser progressivement à travers les opportunités professionnelles qui s'offriront à moi. Ce portfolio reflète mes ambitions et ma détermination à développer ces compétences dans un environnement stimulant.</p>
+                <p class="note-highlight">Je suis en apprentissage constant, prêt à relever de nouveaux défis et à grandir avec votre entreprise.</p>
+            </div>
+        </div>
     </section>
 
     <!-- Projects Section -->
